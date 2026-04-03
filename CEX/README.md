@@ -152,3 +152,50 @@ Module 3 focuses on three matching problems:
   - `cargo run -- 3 3`
 - Run tests:
   - `cargo test`
+
+---
+
+# CEX Bootcamp - Module 4 (Accounts & Settlement)
+
+This module focuses on exchange account correctness: updating balances safely, validating whether orders are affordable, and settling executed trades while preserving total assets.
+
+## What Module 4 is about
+
+Module 4 focuses on two core problems:
+
+1. **Manage Balances & Validate Margin**
+   - Apply deposit/withdraw operations with insufficient-withdraw protection.
+   - Enforce margin checks before order acceptance:
+     - **Buy** requires quote funds (`price * qty`),
+     - **Sell** requires base inventory (`qty`).
+
+2. **Settle Trades Between Parties**
+   - Process each trade `(price, qty)` sequentially.
+   - Apply double-entry balance changes:
+     - Buyer gets `+qty` base and pays `-(price*qty)` quote,
+     - Seller gives `-qty` base and receives `+(price*qty)` quote.
+   - Return final balances for both sides.
+
+## What we learned
+
+- **Balance safety rules:** deposits are always additive; withdrawals must pass available-funds checks.
+- **Pre-trade risk control:** margin validation prevents orders that cannot be funded.
+- **Asset-specific constraints:** buys consume quote currency, sells consume base asset.
+- **Deterministic settlement:** processing trades in strict sequence yields reproducible account state.
+- **Conservation principle:** total base and total quote are preserved across buyer+seller after settlement.
+- **Edge-case robustness:** no-op behavior for empty trade lists and skipped invalid withdrawals.
+
+## Implemented files
+
+- `CEX/src/modules/accounts_settlement/problem1.rs`
+- `CEX/src/modules/accounts_settlement/problem2.rs`
+
+## How to run
+
+- Run all Module 4 problems:
+  - `cargo run -- 4`
+- Run a specific problem:
+  - `cargo run -- 4 1`
+  - `cargo run -- 4 2`
+- Run tests:
+  - `cargo test`

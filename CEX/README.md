@@ -199,3 +199,54 @@ Module 4 focuses on two core problems:
   - `cargo run -- 4 2`
 - Run tests:
   - `cargo test`
+
+---
+
+# CEX Bootcamp - Module 5 (Market Data & Analytics)
+
+This module turns raw execution flow into market intelligence: candlestick construction (OHLCV), VWAP calculation, and taker-flow analysis for directional pressure.
+
+## What Module 5 is about
+
+Module 5 focuses on two analytics problems:
+
+1. **Build Candlestick Data & VWAP**
+   - Compute OHLCV from chronological trades:
+     - Open = first trade price,
+     - High = max price,
+     - Low = min price,
+     - Close = last trade price,
+     - Volume = total quantity.
+   - Compute VWAP using:
+     - `vwap = sum(price * qty) / sum(qty)` (integer division).
+
+2. **Analyze Taker Buy/Sell Volume**
+   - Split volume by aggressor side:
+     - side `0` = taker-buy,
+     - side `1` = taker-sell.
+   - Compute buy flow share:
+     - `buy_pct = buy_vol * 100 / (buy_vol + sell_vol)`.
+
+## What we learned
+
+- **Market-data compression:** many trades can be summarized into compact OHLCV bars.
+- **VWAP intuition:** volume weighting gives a truer average execution level than simple mean price.
+- **Flow decomposition:** separating taker-buy vs taker-sell reveals directional pressure.
+- **Percentage signal design:** buy share near 50 is balanced flow; extremes indicate imbalance.
+- **Chronological sensitivity:** open/close depend on order of events, not just price set.
+- **Safe analytics handling:** empty/zero-volume cases are guarded to avoid divide-by-zero errors.
+
+## Implemented files
+
+- `CEX/src/modules/market_data_analytics/problem1.rs`
+- `CEX/src/modules/market_data_analytics/problem2.rs`
+
+## How to run
+
+- Run all Module 5 problems:
+  - `cargo run -- 5`
+- Run a specific problem:
+  - `cargo run -- 5 1`
+  - `cargo run -- 5 2`
+- Run tests:
+  - `cargo test`

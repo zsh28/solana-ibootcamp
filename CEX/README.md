@@ -53,6 +53,62 @@ Module 1 focuses on three foundational problems:
 
 ---
 
+# CEX Bootcamp - Module 3 (The Matching Engine)
+
+This module implements the execution core of the exchange: deciding when orders cross, how fills are computed while walking price levels, and how a full matching loop generates trades over time.
+
+## What Module 3 is about
+
+Module 3 focuses on three matching problems:
+
+1. **Match a Buy and Sell Order**
+   - Validate the crossing condition: `buy_price >= sell_price`.
+   - Use resting-price execution:
+     - trade price = resting order price,
+     - trade qty = `min(buy_qty, sell_qty)`.
+   - Return `(matched, trade_price, trade_qty)`.
+
+2. **Fill Buy Orders Against the Ask Book**
+   - Walk ask levels in ascending price.
+   - Support both:
+     - **Market buy** (`limit_price == 0`),
+     - **Limit buy** (`limit_price > 0`, stop when ask is too expensive).
+   - Return `(total_filled, total_cost, remaining_qty)`.
+
+3. **Build the Complete Matching Engine**
+   - Process a stream of buy/sell orders in arrival order.
+   - Match against opposite side while crossing is possible.
+   - Record trades in exact execution order.
+   - Rest any remaining quantity back onto the book.
+
+## What we learned
+
+- **Crossing logic fundamentals:** a trade exists only when bid meets or exceeds ask.
+- **Resting-price execution rule:** aggressive orders trade at book liquidity prices, not their own limit.
+- **Partial fill mechanics:** quantities are consumed incrementally with `min(remaining, available)`.
+- **Book walking behavior:** market/limit semantics directly control how far matching continues.
+- **Stateful engine loops:** maintaining bids/asks across events is key for realistic matching behavior.
+- **Execution-order correctness:** trade logs must preserve exact sequence for downstream settlement/analytics.
+
+## Implemented files
+
+- `CEX/src/modules/matching_engine/problem1.rs`
+- `CEX/src/modules/matching_engine/problem2.rs`
+- `CEX/src/modules/matching_engine/problem3.rs`
+
+## How to run
+
+- Run all Module 3 problems:
+  - `cargo run -- 3`
+- Run a specific problem:
+  - `cargo run -- 3 1`
+  - `cargo run -- 3 2`
+  - `cargo run -- 3 3`
+- Run tests:
+  - `cargo test`
+
+---
+
 # CEX Bootcamp - Module 2 (The Order Book)
 
 This module covers how a centralized exchange represents liquidity on the bid/ask book, and how to derive depth-based signals from that structure.

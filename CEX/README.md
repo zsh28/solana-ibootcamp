@@ -53,6 +53,52 @@ Module 1 focuses on three foundational problems:
 
 ---
 
+# CEX Bootcamp - Module 2 (The Order Book)
+
+This module covers how a centralized exchange represents liquidity on the bid/ask book, and how to derive depth-based signals from that structure.
+
+## What Module 2 is about
+
+Module 2 focuses on two core problems:
+
+1. **Aggregate Orders into a Book**
+   - Convert raw `(price, qty)` orders into aggregated price levels.
+   - Build one side of the book at a time:
+     - **Bids** sorted descending (highest first),
+     - **Asks** sorted ascending (lowest first).
+   - Return both the sorted levels and the side's best price.
+
+2. **Analyze Order Book Depth**
+   - Build a depth-limited snapshot (top `N` levels) for bids and asks.
+   - Compute top-of-book quantity pressure with imbalance:
+     - `imbalance = bid_qty * 100 / (bid_qty + ask_qty)`.
+
+## What we learned
+
+- **Price-level aggregation:** multiple orders at the same price collapse into one level with summed quantity.
+- **Book ordering semantics:** bid/ask sides use opposite sorting directions because "best" means different things.
+- **Depth as liquidity lens:** top `N` levels approximate immediate executable liquidity and slippage risk.
+- **Imbalance as directional signal:** >50 implies buy-side pressure, <50 implies sell-side pressure.
+- **Robust edge handling:** safe behavior for empty books / zero total quantity avoids runtime errors.
+- **Deterministic tests for microstructure logic:** examples and edge cases are validated with unit tests.
+
+## Implemented files
+
+- `CEX/src/modules/order_book/problem1.rs`
+- `CEX/src/modules/order_book/problem2.rs`
+
+## How to run
+
+- Run all Module 2 problems:
+  - `cargo run -- 2`
+- Run a specific problem:
+  - `cargo run -- 2 1`
+  - `cargo run -- 2 2`
+- Run tests:
+  - `cargo test`
+
+---
+
 # CEX Bootcamp - Module 3 (The Matching Engine)
 
 This module implements the execution core of the exchange: deciding when orders cross, how fills are computed while walking price levels, and how a full matching loop generates trades over time.
@@ -104,51 +150,5 @@ Module 3 focuses on three matching problems:
   - `cargo run -- 3 1`
   - `cargo run -- 3 2`
   - `cargo run -- 3 3`
-- Run tests:
-  - `cargo test`
-
----
-
-# CEX Bootcamp - Module 2 (The Order Book)
-
-This module covers how a centralized exchange represents liquidity on the bid/ask book, and how to derive depth-based signals from that structure.
-
-## What Module 2 is about
-
-Module 2 focuses on two core problems:
-
-1. **Aggregate Orders into a Book**
-   - Convert raw `(price, qty)` orders into aggregated price levels.
-   - Build one side of the book at a time:
-     - **Bids** sorted descending (highest first),
-     - **Asks** sorted ascending (lowest first).
-   - Return both the sorted levels and the side's best price.
-
-2. **Analyze Order Book Depth**
-   - Build a depth-limited snapshot (top `N` levels) for bids and asks.
-   - Compute top-of-book quantity pressure with imbalance:
-     - `imbalance = bid_qty * 100 / (bid_qty + ask_qty)`.
-
-## What we learned
-
-- **Price-level aggregation:** multiple orders at the same price collapse into one level with summed quantity.
-- **Book ordering semantics:** bid/ask sides use opposite sorting directions because "best" means different things.
-- **Depth as liquidity lens:** top `N` levels approximate immediate executable liquidity and slippage risk.
-- **Imbalance as directional signal:** >50 implies buy-side pressure, <50 implies sell-side pressure.
-- **Robust edge handling:** safe behavior for empty books / zero total quantity avoids runtime errors.
-- **Deterministic tests for microstructure logic:** examples and edge cases are validated with unit tests.
-
-## Implemented files
-
-- `CEX/src/modules/order_book/problem1.rs`
-- `CEX/src/modules/order_book/problem2.rs`
-
-## How to run
-
-- Run all Module 2 problems:
-  - `cargo run -- 2`
-- Run a specific problem:
-  - `cargo run -- 2 1`
-  - `cargo run -- 2 2`
 - Run tests:
   - `cargo test`

@@ -1,3 +1,26 @@
+// Problem 1: Order Intake Pipeline
+//
+// Every incoming order is handled in two stages:
+// 1) Validation
+//    - order_type must be "MARKET" or "LIMIT"
+//    - side must be "BUY" or "SELL"
+//    - qty must be > 0
+//    - LIMIT orders must have price > 0
+// 2) Classification
+//    - MARKET => "IMMEDIATE"
+//    - LIMIT BUY  with price >= best_ask => "IMMEDIATE"
+//    - LIMIT SELL with price <= best_bid => "IMMEDIATE"
+//    - otherwise => "RESTING"
+//
+// Function to implement:
+// process_incoming_order(
+//   order_type, side, price, qty, best_bid, best_ask
+// ) -> "REJECTED" | "IMMEDIATE" | "RESTING"
+//
+// Worked examples (best_bid=100, best_ask=105):
+// - ("LIMIT", "BUY", 110, 10, 100, 105) => "IMMEDIATE"
+// - ("LIMIT", "BUY", 99, 10, 100, 105)  => "RESTING"
+// - ("LIMIT", "HOLD", 100, 10, 100, 105) => "REJECTED"
 fn process_incoming_order(
     order_type: &str,
     side: &str,

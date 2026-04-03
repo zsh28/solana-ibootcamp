@@ -1,3 +1,18 @@
+// Problem 2: Exchange Economics
+//
+// Compute four key metrics for a trade:
+// - spread   = best_ask - best_bid
+// - midprice = (best_bid + best_ask) / 2
+// - notional = price * qty
+// - fee      = notional * fee_bps / 10000
+//
+// Function to implement:
+// order_economics(best_bid, best_ask, price, qty, fee_bps)
+// -> (spread, midprice, notional, fee)
+//
+// Worked example:
+// best_bid=100, best_ask=105, price=100, qty=10, fee_bps=30
+// => (5, 102, 1000, 3)
 fn order_economics(
     best_bid: u64,
     best_ask: u64,

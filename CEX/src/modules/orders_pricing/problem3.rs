@@ -1,3 +1,18 @@
+// Problem 3: Price-Time Priority
+//
+// Exchange matching priority rules:
+// - Buy side: highest price first, then earliest timestamp
+// - Sell side: lowest price first, then earliest timestamp
+//
+// Task:
+// - sort_buy_orders(orders)  -> Vec<usize>
+// - sort_sell_orders(orders) -> Vec<usize>
+//
+// Each order is (price, timestamp).
+// Return indices into the original input in priority order.
+//
+// Worked example (buy side):
+// [(100, 1), (101, 2), (100, 3)] => [1, 0, 2]
 fn sort_buy_orders(orders: &[(u64, u64)]) -> Vec<usize> {
     let mut indices: Vec<usize> = (0..orders.len()).collect();
 
